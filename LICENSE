@@ -1,5 +1,24 @@
                     GNU GENERAL PUBLIC LICENSE
-                       Version 3, 29 June 2007
+                       Version 3, 29 June 2007local RunService = game:GetService("RunService")
+local ball = script.Parent
+
+-- Configurações de física "Classic"
+local frictionCoeff = 0.98 -- Fator de desaceleração (entre 0 e 1)
+
+RunService.Heartbeat:Connect(function(dt)
+    -- Verificamos se a bola está se movendo
+    if ball.AssemblyLinearVelocity.Magnitude > 0.1 then
+        
+        -- Aplicamos a desaceleração baseada no DeltaTime
+        -- v_nova = v_atual * (friccao ^ dt)
+        local newVelocity = ball.AssemblyLinearVelocity * math.pow(frictionCoeff, dt * 60)
+        
+        ball.AssemblyLinearVelocity = newVelocity
+    else
+        -- Para a bola completamente se a velocidade for muito baixa
+        ball.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+    end
+end)
 
  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  Everyone is permitted to copy and distribute verbatim copies
